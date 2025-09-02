@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
     map<string, string> headers = {{ "Content-Type", "application/json" }};
 
     try {
-        fetch::response response = request(url, method, body, headers);
+        auto response = request(url, method, body, headers);
 
         cout << response.text() << endl;
     } catch (fetch::error& e) {

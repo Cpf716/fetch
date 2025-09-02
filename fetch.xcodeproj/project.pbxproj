@@ -20,6 +20,11 @@
 
 /* Begin PBXFileReference section */
 		9C0338DA2E661A180007318B /* fetch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = fetch; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C0339A82E66DBFD0007318B /* greeting.service.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = greeting.service.js; sourceTree = "<group>"; };
+		9C0339A92E66DBFD0007318B /* logger.service.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = logger.service.js; sourceTree = "<group>"; };
+		9C0339AA2E66DBFD0007318B /* request.service.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = request.service.js; sourceTree = "<group>"; };
+		9C0339AC2E66DBFD0007318B /* api-doc.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "api-doc.yaml"; sourceTree = "<group>"; };
+		9C0339AD2E66DBFD0007318B /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,6 +49,7 @@
 		9C0338D12E661A180007318B = {
 			isa = PBXGroup;
 			children = (
+				9C0339AE2E66DBFD0007318B /* test-server */,
 				9C0338DC2E661A180007318B /* fetch */,
 				9C0338DB2E661A180007318B /* Products */,
 			);
@@ -55,6 +61,26 @@
 				9C0338DA2E661A180007318B /* fetch */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9C0339AB2E66DBFD0007318B /* service */ = {
+			isa = PBXGroup;
+			children = (
+				9C0339A82E66DBFD0007318B /* greeting.service.js */,
+				9C0339A92E66DBFD0007318B /* logger.service.js */,
+				9C0339AA2E66DBFD0007318B /* request.service.js */,
+			);
+			path = service;
+			sourceTree = "<group>";
+		};
+		9C0339AE2E66DBFD0007318B /* test-server */ = {
+			isa = PBXGroup;
+			children = (
+				9C0339AB2E66DBFD0007318B /* service */,
+				9C0339AC2E66DBFD0007318B /* api-doc.yaml */,
+				9C0339AD2E66DBFD0007318B /* index.js */,
+			);
+			path = "test-server";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

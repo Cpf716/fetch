@@ -1,6 +1,7 @@
-// Author: Corey Ferguson
-// Date:   2025 September 1  
-// File    logger.service.js
+// Author:  Corey Ferguson
+// Date:    2025 September 1  
+// File:    logger.service.js
+// Project: fetch
 //
 // Typedef
 
