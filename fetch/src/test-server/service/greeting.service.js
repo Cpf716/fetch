@@ -1,6 +1,7 @@
-// Author: Corey Ferguson
-// Date:   2025 September 1  
-// File    greeting.service.js
+// Author:  Corey Ferguson
+// Date:    2025 September 1  
+// File:    greeting.service.js
+// Project: fetch
 //
 // Non-Member Fields
 
@@ -55,7 +56,7 @@ class GreetingService {
     }
 
     incrementDay() {
-        this.day = this.day === 7 ? 0 : this.day + 1;
+        this.day = this.day === 6 ? 0 : this.day + 1;
 
         // Increment day every 24 hours
         setTimeout(() => this.incrementDay(), 86400 * 1000)

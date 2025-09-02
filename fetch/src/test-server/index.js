@@ -1,6 +1,7 @@
-// Author: Corey Ferguson
-// Date:   2025 September 1  
-// File    index.js
+// Author:  Corey Ferguson
+// Date:    2025 September 1
+// File:    index.js
+// Project: fetch
 //
 
 const { GreetingService } = require('./service/greeting.service'),

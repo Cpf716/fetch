@@ -1,6 +1,7 @@
-# Author: Corey Ferguson
-# Date:   2025 September 1  
-# File    greeting.service.js
+# Author:  Corey Ferguson
+# Date:    2025 September 1  
+# File:    greeting.service.js
+# Project: fetch
 #
 
 openapi: 3.0.2

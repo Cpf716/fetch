@@ -9,7 +9,6 @@
 #define fetch_h
 
 #include "util.h"
-#include <filesystem>
 #include <fstream>
 #include <map>
 
