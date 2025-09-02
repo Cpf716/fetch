@@ -13,7 +13,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     string              url = "http://localhost:8080/greeting";
     string              method = "POST";
-    string              body = "{ \"firstName\": \"Corey\", \"lastName\": \"Ferguson\" }";
+    string              body = "{ \"firstName\": \"Corey\" }";
     map<string, string> headers = {{ "Content-Type", "application/json" }};
 
     try {
@@ -21,8 +21,9 @@ int main(int argc, const char * argv[]) {
 
         cout << response.text() << endl;
     } catch (fetch::error& e) {
-        string message = std::to_string(e.status()) + " " + e.status_text();
+        if (e.text().length())
+            throw runtime_error(e.text());
 
-        throw runtime_error(message);
+        throw e;
     }
 }

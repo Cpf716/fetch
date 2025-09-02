@@ -1,10 +1,12 @@
 // Author: Corey Ferguson
 // Date:   2025 September 1  
-// File    greeting.service.js
+// File    index.js
 //
 
 const { GreetingService } = require('./service/greeting.service'),
+    { LoggerService: Logger } = require('./service/logger.service'),
     { OpenAPIBackend } = require('openapi-backend'),
+    { RequestService: Request } = require('./service/request.service'),
     cors = require("cors"),
     express = require("express"),
     path = require("path");
@@ -25,15 +27,31 @@ const main = () => {
     const handleError = (err, req, res) => {
         err.status ||= 500;
 
-        res.status(err.status).send({
+        const result = {
             message: err.message ?? "Unknown Error", status: err.status
-        });  
-    };
-        greetingService = new GreetingService();
+        };
+
+        Logger.error('ERROR!!!');
+        Logger.error({ ...err, ...result });
+
+        res.status(err.status).send(result);  
+    }, 
+        greeting = new GreetingService();
 
     api.register({
-        validationFail: (c, req, res) => handleError({ message: c.validation.errors[0].message, status: 400 }, req, res),
-        greeting: (c, req, res) => res.json(greetingService.createGreeting(req.body)),
+        validationFail: (c, req, res) => {
+            Request.receive(req.url, req.body);
+
+            handleError({
+                ...c.validation.errors[0],
+                status: 400
+            }, req, res);
+        },
+        greeting: (c, req, res) => {
+            Request.receive(req.url, req.body);
+
+            res.json(greeting.create(req.body));   
+        },
         notFound: (c, req, res) => res.status(404).json(`Cannot ${req.method} ${req.url}`)
     })
 
@@ -42,7 +60,6 @@ const main = () => {
     app.use(cors({
         origin: "*"
     }));
-
     app.use(express.json());
     app.use((req, res) => api.handleRequest(req, req, res));
 
