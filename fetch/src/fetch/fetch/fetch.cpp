@@ -238,6 +238,8 @@ namespace fetch {
                     return fetch::response(url, method, request_headers, status, status_text, text, response_headers, duration);
                 }
 
+                free(error);
+
                 throw fetch::error(url, method, status, status_text, text, duration);
             }
             
