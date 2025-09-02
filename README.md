@@ -13,12 +13,10 @@ The SDK enables C++ developers to natively fetch HTTP requests for low-level int
 
 ### Build and Run
 
-Run the following commands:
+Execute the following command:
 ```
-cd fetch/src/test-server
-
-node index.js
+node test-server/src/index.js
 ```
 #### Reference
 
-Please see `src/fetch/main.cpp` for sample code.
+Please see `fetch/src/main.cpp` for sample code.
