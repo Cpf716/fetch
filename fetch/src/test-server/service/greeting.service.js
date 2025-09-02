@@ -17,7 +17,7 @@ const DAYS = [
 class GreetingService {
     // Member Fields
     
-    day;
+    day; // number
 
     // Constructors
 
@@ -37,16 +37,14 @@ class GreetingService {
         setTimeout(() => this.incrementDay(), tomorrow.getMilliseconds() - today.getMilliseconds());
     }
 
-    incrementDay() {
-        this.day = this.day === 7 ? 0 : this.day + 1;
-
-        // Increment day every 24 hours
-        setTimeout(() => this.incrementDay(), 86400 * 1000)
-    }
-
     // Member Functions
 
-    createGreeting(options) {
+    /**
+     * 
+     * @param {{ firstName: string; lastName?: string | null }} options 
+     * @returns string
+     */
+    create(options) {
         const greeting = ["Happy ", DAYS[this.day], ", ", options.firstName];
 
         options.lastName && greeting.push(" ", options.lastName);
@@ -54,6 +52,13 @@ class GreetingService {
         greeting.push("!");
 
         return greeting.join("");
+    }
+
+    incrementDay() {
+        this.day = this.day === 7 ? 0 : this.day + 1;
+
+        // Increment day every 24 hours
+        setTimeout(() => this.incrementDay(), 86400 * 1000)
     }
 }
 
