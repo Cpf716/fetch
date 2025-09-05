@@ -8,6 +8,11 @@
 #ifndef util_h
 #define util_h
 
+#define LEVEL_OFF 0
+#define LEVEL_INFO 1
+#define LEVEL_ERROR 2
+#define LOGGING LEVEL_OFF
+
 #include <iostream>
 #include <random>
 #include <sstream>
@@ -24,6 +29,11 @@ std::string decode(const std::string string);
  */
 std::string encode(const std::string string);
 
+/**
+ * Return true if value can be parsed into an integer, otherwise return false
+ */
+bool        is_int(const std::string value);
+
 bool        is_pow(const size_t b, const size_t n);
 
 /**
@@ -32,12 +42,25 @@ bool        is_pow(const size_t b, const size_t n);
 bool        is_string_literal(const std::string value);
 
 /**
+ * Return value parsed into an integer
+ */
+int         parse_int(const std::string value);
+
+/**
  * Return the next power of two
  */
 int         pow2(const int b);
 
+void        split(std::vector<std::string>& target, const std::string source, const std::string delimeter);
+
 void        tokens(std::vector<std::string>& target, const std::string source);
+
+/**
+ * Return string trimmed of leading and trailing whitespace
+ */
+std::string trim(const std::string string);
+
+std::string trim_end(const std::string string);
     
-std::string uuid();
 
 #endif /* util_h */

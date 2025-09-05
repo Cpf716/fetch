@@ -2,80 +2,53 @@
 //  fetch.h
 //  fetch
 //
-//  Created by Corey Ferguson on 9/1/25.
+//  Created by Corey Ferguson on 9/2/25.
 //
 
 #ifndef fetch_h
 #define fetch_h
 
-#include "util.h"
+#include "socket.h"
 #include <fstream>
 #include <map>
 
 namespace fetch {
     // Typedef
 
-    struct error: public std::exception {
+    struct response_t {
+        // Member Functions
+
+        virtual double                             duration() const = 0;
+
+        virtual std::string                        get(const std::string key) = 0;
+
+        virtual std::map<std::string, std::string> headers() = 0;
+
+        virtual size_t                             status() const = 0;
+
+        virtual std::string                        status_text() const = 0;
+
+        virtual std::string                        text() const = 0;
+    };
+
+    struct error: public std::exception, public response_t {
         // Constructors
 
         error(
-            std::string       url,
-            std::string       method,
-            const size_t      status,
-            const std::string status_text,
-            const std::string text,
-            double            duration
-        );
-
-        // Member Functions
-
-        double      duration() const;
-
-        std::string method() const;
-
-        size_t      status() const;
-
-        std::string status_text() const;
-
-        std::string text() const;
-
-        std::string url() const;
-
-        const char* what() const throw();
-    private:
-        // Member Fields
-
-        double      _duration;
-        std::string _method;
-        size_t      _status;
-        std::string _status_text;
-        std::string _text;
-        std::string _url;
-    };
-
-    struct response {
-        // Constructors
-
-        response(
-            std::string                        url,
-            std::string                        method,
-            std::map<std::string, std::string> request_headers,
             const size_t                       status,
             const std::string                  status_text,
             const std::string                  text,
-            std::map<std::string, std::string> response_headers,
-            double                             duration
+            double                             duration,
+            std::map<std::string, std::string> headers = {}
         );
 
         // Member Functions
 
         double                             duration() const;
 
-        std::string                        method() const;
+        std::string                        get(const std::string key);
 
-        std::map<std::string, std::string> request_headers();
-
-        std::map<std::string, std::string> response_headers();
+        std::map<std::string, std::string> headers();
 
         size_t                             status() const;
 
@@ -83,25 +56,58 @@ namespace fetch {
 
         std::string                        text() const;
 
-        std::string                        url() const;
+        const char*                        what() const throw();
     private:
+        // Member Fields
+
         double                             _duration;
-        std::string                        _method;
-        std::map<std::string, std::string> _request_headers;
-        std::map<std::string, std::string> _response_headers;
+        std::map<std::string, std::string> _headers;
         size_t                             _status;
         std::string                        _status_text;
         std::string                        _text;
-        std::string                        _url;
+    };
+
+    struct response: public response_t {
+        // Constructors
+
+        response(
+            const size_t                       status,
+            const std::string                  status_text,
+            std::map<std::string, std::string> headers,
+            const std::string                  text,
+            double                             duration
+        );
+
+        // Member Functions
+
+        double                             duration() const;
+        
+        std::string                        get(const std::string key);
+
+        std::map<std::string, std::string> headers();
+
+        size_t                             status() const;
+
+        std::string                        status_text() const;
+
+        std::string                        text() const;
+    private:
+        // Member Fields
+        
+        double                             _duration;
+        std::map<std::string, std::string> _headers;
+        size_t                             _status;
+        std::string                        _status_text;
+        std::string                        _text;
     };
 
     // Non-Member Functions
     
     response request(
-        const std::string                  url,
-        const std::string                  method = "GET", 
-        const std::string                  body = "", 
-        std::map<std::string, std::string> headers = std::map<std::string, std::string>()
+        std::map<std::string, std::string>& headers,
+        const std::string                    url,
+        const std::string                    method = "GET",
+        const std::string                    body = ""
     );
 }
 
