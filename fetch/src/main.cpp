@@ -10,14 +10,15 @@
 using namespace fetch;
 using namespace std;
 
+map<string, string> headers = {{ "content-type", "application/json" }};
+
 int main(int argc, const char * argv[]) {
-    string              url = "http://localhost:8080/greeting";
+    string              url = "http://localhost:8081/greeting";
     string              method = "POST";
     string              body = "{ \"firstName\": \"Corey\" }";
-    map<string, string> headers = {{ "Content-Type", "application/json" }};
 
     try {
-        auto response = request(url, method, body, headers);
+        auto response = request(headers, url, method, body);
 
         cout << response.text() << endl;
     } catch (fetch::error& e) {

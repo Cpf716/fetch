@@ -41,6 +41,10 @@ std::string decode(const std::string string) {
 
     // None found
     if (r == len - 2) {
+#if LOGGING
+        std::cout << "Missing terminating '\"' character: (" + string + ")\n";
+#endif
+
         for (size_t i = l; i < len - 2; i++) {
             if (str[i] == '\\' && str[i + 1] == '\"') {
                 for (size_t j = i; j < len - 1; j++)
@@ -142,6 +146,25 @@ std::string encode(const std::string string) {
     return result;
 }
 
+// 1. (\+|-)?
+// 2. (\+|-)?[0-9]+
+bool is_int(const std::string value) {
+    int i = 0;
+    
+    // leading positive (+) or negative (-) sign
+    if (i != value.length() && (value[i] == '+' || value[i] == '-'))
+        ++i;
+    
+    if (i == value.length())
+        return false;
+    
+    for (; i < value.length(); i++)
+        if (!isdigit(value[i]))
+            return false;
+    
+    return true;
+}
+
 bool is_pow(const size_t b, const size_t n) {
     if (b == 0)
         return false;
@@ -164,11 +187,34 @@ bool is_string_literal(const std::string value) {
     return i != value.length();
 }
 
+int parse_int(const std::string value) {
+    return is_int(value) ? stoi(value) : INT_MIN;
+}
+
 int pow2(const int b) {
     if (b == 0)
         return 1;
     
     return pow(2, ceil(log(b) / log(2)));
+}
+
+void split(std::vector<std::string>& target, const std::string source, const std::string delimeter) {
+    size_t start = 0;
+
+    for (int end = 0; end <= (int)source.length() - (int)delimeter.length(); end++) {
+        size_t index = 0;
+
+        while (index < delimeter.length() && source[end + index] == delimeter[index])
+            index++;
+
+        if (index == delimeter.length()) {
+            target.push_back(source.substr(start, end - start));
+
+            start = end + index;
+        }
+    }
+
+    target.push_back(source.substr(start));
 }
 
 void tokens(std::vector<std::string>& target, const std::string source) {
@@ -188,26 +234,28 @@ void tokens(std::vector<std::string>& target, const std::string source) {
     }
 }
 
-std::string uuid() {
-    std::ostringstream              oss;
-    std::random_device              rd;
-    std::mt19937_64                 gen(rd());
-    std::uniform_int_distribution<> uid;
+std::string trim(const std::string string) {
+    // Find leading whitespace
+    size_t start = 0;
     
-    for (size_t i = 0; i < 8; i++)
-        oss << std::hex << uid(gen) % 16;
+    while (start < string.length() && isspace(string[start]))
+        start++;
     
-    oss << "-";
+    // Find trailing whitespace
+    size_t end = string.length();
     
-    for (size_t i = 0; i < 3; i++) {
-        for (size_t j = 0; j < 4; j++)
-            oss << std::hex << uid(gen) % 16;
+    while (end > start && isspace(string[end - 1]))
+        end--;
         
-        oss << "-";
-    }
-    
-    for (size_t i = 0; i < 12; i++)
-        oss << std::hex << uid(gen) % 16;
-    
-    return oss.str();
+    return string.substr(start, end - start);
+}
+
+
+std::string trim_end(const std::string string) {
+    size_t end = string.length();
+
+    while (end > 0 && isspace(string[end - 1]))
+        end--;
+
+    return string.substr(0, end);
 }
