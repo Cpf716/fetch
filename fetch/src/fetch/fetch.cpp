@@ -159,7 +159,6 @@ namespace fetch {
             client->send(ss.str());
 
             ss.str(client->recv());
-            // ss.clear();
         
 #if LOGGING
         std::cout << ss.str() << std::endl;
@@ -210,9 +209,10 @@ namespace fetch {
         std::string text = str.substr(str.length() - content_length);
 
         // Parse response headers
-        ss.str(str.substr(0, content_length));
-
-        ss.seekp(1, std::ios::beg);
+        ss.str(str.substr(0, str.length() - content_length));
+        
+        // Skip start line
+        getline(ss, str);
 
         std::map<std::string, std::string> _headers;
 
