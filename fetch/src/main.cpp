@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
         cout << response.text() << endl;
     } catch (fetch::error& e) {
         if (e.text().length())
-            throw runtime_error(e.text());
+            throw fetch::error(e.status(), e.text(), e.text(), e.duration(), e.headers());
 
         throw e;
     }
