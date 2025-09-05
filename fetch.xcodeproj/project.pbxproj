@@ -20,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		9C0338DA2E661A180007318B /* fetch */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = fetch; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C2D533E2E6A9A3200F1F10E /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		9C2D533F2E6A9A3200F1F10E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -28,9 +30,9 @@
 			path = fetch;
 			sourceTree = "<group>";
 		};
-		9C2D52BC2E6A7E3700F1F10E /* src */ = {
+		9C2D533D2E6A9A0800F1F10E /* test-server */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = src;
+			path = "test-server";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -49,7 +51,9 @@
 		9C0338D12E661A180007318B = {
 			isa = PBXGroup;
 			children = (
-				9C0339AE2E66DBFD0007318B /* test-server */,
+				9C2D533E2E6A9A3200F1F10E /* LICENSE.txt */,
+				9C2D533F2E6A9A3200F1F10E /* README.md */,
+				9C2D533D2E6A9A0800F1F10E /* test-server */,
 				9C0338DC2E661A180007318B /* fetch */,
 				9C0338DB2E661A180007318B /* Products */,
 			);
@@ -61,14 +65,6 @@
 				9C0338DA2E661A180007318B /* fetch */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9C0339AE2E66DBFD0007318B /* test-server */ = {
-			isa = PBXGroup;
-			children = (
-				9C2D52BC2E6A7E3700F1F10E /* src */,
-			);
-			path = "test-server";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
