@@ -38,11 +38,11 @@ namespace fetch {
         error(
             const size_t                       status,
             const std::string                  status_text,
-            const std::string                  text,
+            const std::string                  text = "",
             std::map<std::string, std::string> headers = {}
         );
 
-        // Member Function
+        // Member Functions
 
         /**
          * Return response header
@@ -78,7 +78,7 @@ namespace fetch {
         );
 
         // Member Functions
-        
+
         /**
          * Return response header
          */
