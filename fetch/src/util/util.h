@@ -55,6 +55,8 @@ void        split(std::vector<std::string>& target, const std::string source, co
 
 void        tokens(std::vector<std::string>& target, const std::string source);
 
+std::string tolowers(const std::string string);
+
 /**
  * Return string trimmed of leading and trailing whitespace
  */
