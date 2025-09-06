@@ -18,8 +18,6 @@ namespace fetch {
     struct response_t {
         // Member Functions
 
-        virtual double                             duration() const = 0;
-
         /**
          * Return response header
          */
@@ -41,13 +39,10 @@ namespace fetch {
             const size_t                       status,
             const std::string                  status_text,
             const std::string                  text,
-            double                             duration,
             std::map<std::string, std::string> headers = {}
         );
 
-        // Member Functions
-
-        double                             duration() const;
+        // Member Function
 
         /**
          * Return response header
@@ -66,7 +61,6 @@ namespace fetch {
     private:
         // Member Fields
 
-        double                             _duration;
         std::map<std::string, std::string> _headers;
         size_t                             _status;
         std::string                        _status_text;
@@ -80,13 +74,10 @@ namespace fetch {
             const size_t                       status,
             const std::string                  status_text,
             std::map<std::string, std::string> headers,
-            const std::string                  text,
-            double                             duration
+            const std::string                  text
         );
 
         // Member Functions
-
-        double                             duration() const;
         
         /**
          * Return response header
@@ -103,7 +94,6 @@ namespace fetch {
     private:
         // Member Fields
         
-        double                             _duration;
         std::map<std::string, std::string> _headers;
         size_t                             _status;
         std::string                        _status_text;
