@@ -108,6 +108,11 @@ namespace fetch {
         const std::string                   method = "GET",
         const std::string                   body = ""
     );
+
+    /**
+     * Returns request timeout
+     */
+    size_t& timeout();
 }
 
 #endif /* fetch_h */
