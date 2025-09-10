@@ -253,7 +253,7 @@ namespace fetch {
 #endif
     
         // Begin - Perform fetch
-        std::atomic<bool> nores = true;
+        std::atomic<bool> recved = false;
 
         try {
             mysocket::tcp_client* client = new mysocket::tcp_client(host[0], parse_int(host[1]));
@@ -261,22 +261,23 @@ namespace fetch {
             client->send(ss.str());
 
             // Begin - Listen for timeout
-            std::thread([&nores, &client]() {
-                for (size_t i = 0; i < timeout() && nores.load(); i++)
+            std::thread([&recved, &client]() {
+                for (size_t i = 0; i < timeout() && !recved.load(); i++)
                     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-                if (nores.load()) {
-                    nores.store(false);
+                if (recved.load())
+                    return;
 
-                    // Sever connection
-                    client->close();
-                }
+                recved.store(true);
+
+                // Sever connection
+                client->close();
             }).detach();
             // End - Listen for timeout
 
             ss.str(client->recv());
 
-            nores.store(false);
+            recved.store(true);
             
 #if LOGGING
         std::cout << ss.str() << std::endl;
@@ -284,10 +285,10 @@ namespace fetch {
 
             client->close();
         } catch (mysocket::error& e) {
-            if (nores.load())
-                throw fetch::error(0, "Unknown error", e.what());
-
-            throw fetch::error(0, "Unknown error", "Connection timed out");
+            if (recved.load())
+                throw fetch::error(0, "Unknown error", "Connection timed out");
+            
+            throw fetch::error(0, "Unknown error", e.what());
         }
 
         // Server disconnected
