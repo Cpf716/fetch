@@ -153,7 +153,7 @@ bool is_int(const std::string value) {
     
     // leading positive (+) or negative (-) sign
     if (i != value.length() && (value[i] == '+' || value[i] == '-'))
-        ++i;
+        i++;
     
     if (i == value.length())
         return false;

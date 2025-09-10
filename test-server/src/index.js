@@ -47,6 +47,7 @@ const main = () => {
                 status: 400
             }, req, res);
         },
+        doNotReply: (c, req, res) => {},
         greeting: (c, req, res) => {
             Request.receive(req.url, req.body);
 
