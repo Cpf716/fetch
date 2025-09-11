@@ -198,6 +198,28 @@ int pow2(const int b) {
     return pow(2, ceil(log(b) / log(2)));
 }
 
+std::vector<std::string> split(const std::string string, const std::string delimeter) {
+    std::vector<std::string> result;
+    size_t                   start = 0;
+
+    for (int end = 0; end <= (int)string.length() - (int)delimeter.length(); end++) {
+        size_t index = 0;
+
+        while (index < delimeter.length() && string[end + index] == delimeter[index])
+            index++;
+
+        if (index == delimeter.length()) {
+            result.push_back(string.substr(start, end - start));
+
+            start = end + index;
+        }
+    }
+
+    result.push_back(string.substr(start));
+
+    return result;
+}
+
 void split(std::vector<std::string>& target, const std::string source, const std::string delimeter) {
     size_t start = 0;
 
@@ -217,10 +239,27 @@ void split(std::vector<std::string>& target, const std::string source, const std
     target.push_back(source.substr(start));
 }
 
+std::vector<std::string> tokens(const std::string string) {
+    std::vector<std::string> result;
+
+    for (size_t start = 0, end = 0; end < string.length(); end++) {
+        while (end < string.length() && isspace(string[end]))
+            end++;
+
+        start = end;
+
+        while (end < string.length() && !isspace(string[end]))
+            end++;
+
+        if (start != end)
+            result.push_back(string.substr(start, end - start));
+    }
+
+    return result;
+}
+
 void tokens(std::vector<std::string>& target, const std::string source) {
-    size_t start = 0;
-    
-    for (size_t end = 0; end < source.length(); end++) {
+    for (size_t start = 0, end = 0; end < source.length(); end++) {
         while (end < source.length() && isspace(source[end]))
             end++;
         
