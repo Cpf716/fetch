@@ -23,6 +23,8 @@ namespace fetch {
 
             value();
 
+            value(const char* value);
+
             value(const int value);
 
             value(const std::string value);
@@ -35,6 +37,8 @@ namespace fetch {
 
             int         operator=(const int value);
 
+            bool        operator==(const char* value);
+
             std::string operator=(const std::string value);
 
             bool        operator==(const int value);
@@ -42,6 +46,8 @@ namespace fetch {
             bool        operator==(const std::string value);
 
             bool        operator==(const struct value value);
+
+            bool        operator!=(const char* value);
 
             bool        operator!=(const int value);
 
