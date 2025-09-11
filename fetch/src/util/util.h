@@ -19,6 +19,8 @@
 
 // Non-Member Functions
 
+int                      decimal(const std::string decimal);
+
 /**
  * Decode double quotation-escaped string
  */
@@ -40,6 +42,8 @@ bool                     is_pow(const size_t b, const size_t n);
  * Return true if value includes double quotations, otherwise return false
  */
 bool                     is_string_literal(const std::string value);
+
+std::string              join(std::vector<std::string> values, std::string delimeter);
 
 /**
  * Return value parsed into an integer
