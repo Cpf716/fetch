@@ -51,10 +51,10 @@ const main = () => {
         greeting: (c, req, res) => {
             Request.receive(req.url, req.body);
 
-            res.json(greeting.create(req.body));   
+            res.send(greeting.create(req.body));   
         },
         ping: (c, req, res) => res.send({ message: "Hello, world!"}),
-        notFound: (c, req, res) => res.status(404).json(`Cannot ${req.method} ${req.url}`)
+        notFound: (c, req, res) => res.status(404).send(`Cannot ${req.method} ${req.url}`)
     })
 
     const app = express();

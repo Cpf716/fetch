@@ -88,6 +88,10 @@ namespace fetch {
         return this->str() == std::string(value);
     }
 
+    bool header::operator==(const header value) {
+        return this->str() == value.str();
+    }
+
     bool header::operator==(const int value) {
         return this->int_value() == value;
     }
@@ -96,11 +100,11 @@ namespace fetch {
         return this->str() == value;
     }
 
-    bool header::operator==(const header value) {
-        return this->str() == value.str();
+    bool header::operator!=(const char* value) {
+        return !(*this == value);
     }
 
-    bool header::operator!=(const char* value) {
+    bool header::operator!=(const header value) {
         return !(*this == value);
     }
 
@@ -112,16 +116,13 @@ namespace fetch {
         return !(*this == value);
     }
 
-    bool header::operator!=(const header value) {
-        return !(*this == value);
-    }
-
     // Member Functions
 
     int header::_set(const int value) {
         this->_parsed = true;
         this->_int = value;
-        this->_str = std::to_string(this->_int);
+
+        this->_set(std::to_string(this->_int));
         this->_list.push_back(this->str());
 
         return this->_int;
@@ -135,9 +136,10 @@ namespace fetch {
 
     std::vector<std::string> header::_set(const std::vector<std::string> value) {
         this->_list = value;
-        this->_set(join(this->_list, ", "));
+        
+        this->_set(join(this->list(), ", "));
 
-        return this->_list;
+        return this->list();
     }
 
     header error::get(const std::string key) {

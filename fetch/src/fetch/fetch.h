@@ -16,6 +16,10 @@ namespace fetch {
     // Typedef
 
     struct header {
+        // Typedef
+
+        using map = std::map<std::string, header>;
+
         // Constructors
 
         header();
@@ -65,10 +69,6 @@ namespace fetch {
         std::vector<std::string> list() const;
 
         std::string              str() const;
-
-        // Typedef
-
-        using map = std::map<std::string, header>;
     private:
         // Member Fields
 

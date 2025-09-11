@@ -12,8 +12,8 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     header::map headers = {
-        { "content-type", "application/json" },
-        { "accept", (vector<string>){ "application/json", "text/plain" }}
+        { "accept", (vector<string>){ "application/json", "text/plain" }},
+        { "content-type", "application/json" }
     };
 
     string      url = "http://localhost:8081/greeting";
@@ -27,7 +27,6 @@ int main(int argc, const char * argv[]) {
 
         cout << response.text() << endl;
     } catch (fetch::error& e) {
-
         if (e.text().length())
             throw fetch::error(e.status(), e.text(), e.text(), e.headers());
 

@@ -80,13 +80,13 @@ namespace mysocket {
 
             int         send(const std::string message) const;
         private:
-            // Constructors
-
-            ~connection();
-
             // Member Fields
 
             int _file_descriptor;
+
+            // Constructors
+
+            ~connection();
 
             // Member Functions
 
