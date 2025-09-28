@@ -4,6 +4,7 @@
 // Project: fetch
 //
 
+const morgan = require('morgan');
 const { GreetingService } = require('./service/greeting.service'),
     { LoggerService: Logger } = require('./service/logger.service'),
     { OpenAPIBackend } = require('openapi-backend'),
@@ -59,13 +60,20 @@ const main = () => {
 
     const app = express();
 
+    app.use(morgan('dev'));
+
     app.use(cors({
         origin: "*"
     }));
     app.use(express.json());
     app.use((req, res) => api.handleRequest(req, req, res));
 
-    app.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+    const proxy = express();
+
+    proxy.use((req, res) => res.redirect(308, `http://localhost:${PORT + 1}${req.url}`));
+    proxy.listen(PORT, () => console.log(`Server listening on port ${PORT}...`));
+
+    app.listen(PORT + 1);
 };
 
 // Entry point

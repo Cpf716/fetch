@@ -8,9 +8,13 @@
 #ifndef fetch_h
 #define fetch_h
 
+#include "dns.h"
 #include "socket.h"
 #include <fstream>
 #include <map>
+
+using namespace dns;
+using namespace mysocket;
 
 namespace fetch {
     // Typedef
@@ -98,17 +102,65 @@ namespace fetch {
         /**
          * Return response header
          */
-        virtual header       get(const std::string key) = 0;
+        header       get(const std::string key);
 
-        virtual header::map  headers() = 0;
+        header::map  headers();
 
-        virtual size_t       status() const = 0;
+        size_t       status() const;
 
-        virtual std::string  status_text() const = 0;
+        std::string  status_text() const;
 
-        virtual std::string  text() const = 0;
+        std::string  text() const;
 
-        virtual trailer::map trailers() = 0;
+        trailer::map trailers();
+    protected:
+        // Member Fields
+        
+        header::map   _headers;        
+        size_t        _status;
+        std::string   _status_text;
+        std::string   _text;
+        trailer::map  _trailers;
+    };
+
+    class response: public response_t {
+        // Constructors
+
+        response(const std::string data);
+
+        // Non-Member Functions
+
+        friend response _request(header::map& headers, const std::string url, const std::string method, const std::string body, const size_t redirects);
+    public:
+        // Constructors
+
+        response();
+
+        response(const size_t status, const std::string status_text, const std::string text);
+
+        response(const size_t status, const std::string status_text, header::map headers = {}, const std::string text = "", trailer::map trailers = {});
+    };
+
+    class request {
+        // Constructors
+
+        request(header::map& headers, const std::string url, const std::string method, const std::string body);
+
+        // Member Fields
+
+        std::string _message;
+        url         _url;
+
+        // Non-Member Functions
+
+        friend response _request(header::map& headers, const std::string url, const std::string method, const std::string body, const size_t redirects);
+
+public:
+        // Member Functions
+
+        std::string message() const;
+
+        url         url();
     };
 
     struct error: public std::exception, public response_t {
@@ -124,72 +176,21 @@ namespace fetch {
 
         // Member Functions
 
-        /**
-         * Return response header
-         */
-        header       get(const std::string key);
-
-        header::map  headers();
-
-        size_t       status() const;
-
-        std::string  status_text() const;
-
-        std::string  text() const;
-
-        trailer::map trailers();
-
         const char*  what() const throw();
     private:
-        // Member Fields
 
-        header::map  _headers;
-        size_t       _status;
-        std::string  _status_text;
-        std::string  _text;
-        trailer::map _trailers;
-    };
+        // Non-Member Functions
 
-    struct response: public response_t {
-        // Constructors
-
-        response(
-            const size_t      status,
-            const std::string status_text,
-            header::map       headers,
-            const std::string text,
-            trailer::map      trailers
-        );
-
-        // Member Functions
-
-        /**
-         * Return response header
-         */
-        header        get(const std::string key);
-
-        header::map   headers();
-
-        size_t        status() const;
-
-        std::string   status_text() const;
-
-        std::string   text() const;
-
-        trailer::map  trailers();
-    private:
-        // Member Fields
-        
-        header::map   _headers;        
-        size_t        _status;
-        std::string   _status_text;
-        std::string   _text;
-        trailer::map  _trailers;
+        friend response _request(header::map& headers, const std::string url, const std::string method, const std::string body, const size_t redirects);
     };
 
     // Non-Member Functions
+
+    size_t&  max_redirects();
     
     response request(header::map& headers, const std::string url, const std::string method = "GET", const std::string body = "");
+
+    response parse_response(const std::string data);
 
     /**
      * Returns request timeout

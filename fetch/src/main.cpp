@@ -12,11 +12,10 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     header::map headers = {
-        { "accept", (vector<string>){ "application/json", "text/plain" }},
         { "content-type", "application/json" }
     };
 
-    string      url = "http://localhost:8081/greeting";
+    string      url = "http://localhost:8080/greeting";
     // string      url = "http://localhost:8081/no-reply";
 
     string      method = "POST";
@@ -24,11 +23,15 @@ int main(int argc, const char * argv[]) {
 
     try {
         auto response = request(headers, url, method, body);
+        // auto response = request(headers, "http://calapi.inadiutorium.cz/api/v0/en/calendars/general-en/today");
+
+        // Not supported
+        // auto response = request(headers, "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json");
 
         cout << response.text() << endl;
     } catch (fetch::error& e) {
         if (e.text().length())
-            throw fetch::error(e.status(), e.text(), e.text(), e.headers());
+            throw runtime_error(e.text());
 
         throw e;
     }

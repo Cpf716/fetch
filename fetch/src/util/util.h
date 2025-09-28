@@ -8,11 +8,7 @@
 #ifndef util_h
 #define util_h
 
-#define LEVEL_OFF 0
-#define LEVEL_INFO 1
-#define LEVEL_ERROR 2
-#define LOGGING LEVEL_OFF
-
+#include "properties.h"
 #include <iostream>
 #include <random>
 #include <sstream>
@@ -36,12 +32,9 @@ std::string              encode(const std::string string);
  */
 bool                     is_int(const std::string value);
 
-bool                     is_pow(const size_t b, const size_t n);
+bool                     is_number(const std::string value);
 
-/**
- * Return true if value includes double quotations, otherwise return false
- */
-bool                     is_string_literal(const std::string value);
+bool                     is_pow(const size_t b, const size_t n);
 
 std::string              join(std::vector<std::string> values, std::string delimeter);
 
@@ -49,6 +42,8 @@ std::string              join(std::vector<std::string> values, std::string delim
  * Return value parsed into an integer
  */
 int                      parse_int(const std::string value);
+
+double                   parse_number(const std::string value);
 
 /**
  * Return the next power of two
@@ -63,7 +58,7 @@ std::vector<std::string> tokens(const std::string string);
 
 void                     tokens(std::vector<std::string>& target, const std::string source);
 
-std::string              tolowers(const std::string string);
+std::string              tolowerstr(const std::string string);
 
 /**
  * Return string trimmed of leading and trailing whitespace

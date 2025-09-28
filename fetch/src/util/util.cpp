@@ -61,6 +61,7 @@ std::string decode(const std::string string) {
 
     // None found
     if (r == len - 2) {
+// Info
 #if LOGGING
         std::cout << "Missing terminating '\"' character: (" + string + ")\n";
 #endif
@@ -185,6 +186,81 @@ bool is_int(const std::string value) {
     return true;
 }
 
+// 1. (\+|-)?
+// 2. (\+|-)?[0-9]+(\.[0-9]+)?
+// 3. (\+|-)?([0-9]+(\.[0-9]+)?|[0-9]*\.[0-9]+)((E|e)(\+|-)?[0-9]+)?
+bool is_number(const std::string value) {
+    if (value.empty())
+        return false;
+    
+    int i = 0;
+    
+    // leading positive (+) or negative (-) sign
+    if (value[i] == '+' || value[i] == '-')
+        i++;
+    
+    // find decimal point
+    int j = i;
+    
+    while (j < value.length() && value[j] != '.')
+        j++;
+    
+    // if no decimal point is found, start at the beginning (after the sign, if applicable)
+    // find exponent
+    int k = j == value.length() ? i : j;
+    
+    while (k < value.length() && !(value[k] == 'E' || value[k] == 'e'))
+        k++;
+    
+    // stop at the decimal point, if applicable; otherwise stop at the exponent, if applicable
+    int l = j < k ? j : k,
+        m = i;
+    
+    for (; m < l; m++)
+        if (!isdigit(value[m]))
+            return false;
+    
+    // count the number of digits between the beginning (after sign, if applicable) and the decimal point (if applicable)
+    // and the decimal point (if applicable) and the exponent (if applicable)
+    size_t n = l - i;
+    
+    //  after decimal (if applicable) and before exponent (if applicable)
+    if (j != value.length()) {
+        for (m = j + 1; m < k; m++)
+            if (!isdigit(value[m]))
+                return false;
+        
+        n += k - j - 1;
+    }
+    
+    // there are no digits between sign (if applicable) and decimal point (if applicable)
+    // and/or decimal point (if applicable) and exponent (if applicable)
+    if (n == 0)
+        return false;
+    
+    // after exponent (if applicable)
+    if (k != value.length()) {
+        size_t l = k + 1;
+        
+        if (l == value.length())
+            return false;
+        
+        // leading positive (+) or negative (-) sign
+        if (value[l] == '+' || value[l] == '-')
+            l++;
+        
+        if (l == value.length())
+            return false;
+        
+        for (; l < value.length(); l++)
+            if (!isdigit(value[l]))
+                return false;
+        // single digit
+    }
+    
+    return true;
+}
+
 bool is_pow(const size_t b, const size_t n) {
     if (b == 0)
         return false;
@@ -195,16 +271,6 @@ bool is_pow(const size_t b, const size_t n) {
     int result = log(b) / log(n);
     
     return (int)result - result == 0;
-}
-
-
-bool is_string_literal(const std::string value) {
-    size_t i = 0;
-
-    while (i < value.length() && value[i] != '\"')
-        i++;
-
-    return i != value.length();
 }
 
 std::string join(std::vector<std::string> values, std::string delimeter) {
@@ -222,6 +288,10 @@ std::string join(std::vector<std::string> values, std::string delimeter) {
 
 int parse_int(const std::string value) {
     return is_int(value) ? stoi(value) : INT_MIN;
+}
+
+double parse_number(const std::string value) {
+    return is_number(value) ? stod(value) : NAN;
 }
 
 int pow2(const int b) {
@@ -306,7 +376,7 @@ void tokens(std::vector<std::string>& target, const std::string source) {
     }
 }
 
-std::string tolowers(const std::string string) {
+std::string tolowerstr(const std::string string) {
     std::string str = string;
 
     std::transform(str.begin(), str.end(), str.begin(), ::tolower);
