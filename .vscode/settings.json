@@ -58,6 +58,7 @@
         "iomanip": "cpp",
         "__config": "cpp",
         "charconv": "cpp",
-        "csignal": "cpp"
+        "csignal": "cpp",
+        "span": "cpp"
     }
 }
