@@ -13,6 +13,6 @@
 #define LEVEL_ERROR 2
 #define LEVEL_DEBUG 3
 
-#define LOGGING LEVEL_INFO
+#define LOGGING LEVEL_OFF
 
 #endif /* properties_h */

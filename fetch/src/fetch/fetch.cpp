@@ -17,13 +17,7 @@ namespace fetch {
 
     // Constructors
 
-    error::error(
-        const size_t status,
-        const std::string status_text,
-        const std::string text,
-        header::map headers,
-        trailer::map trailers
-    ) {
+    error::error(const size_t status, const std::string status_text, const std::string text, header::map headers, trailer::map trailers) {
         this->_status = status;
         this->_status_text = status_text;
         this->_text = text;
@@ -208,25 +202,28 @@ namespace fetch {
     // Member Functions
 
     int header::_set(const int value) {
-        this->_parsed = true;
         this->_int = value;
+        this->_str = std::to_string(this->int_value());
+        this->_list = { this->str() };
 
-        this->_set(std::to_string(this->_int));
-        this->_list.push_back(this->str());
-
-        return this->_int;
+        return this->int_value();
     }
 
     std::string header::_set(const std::string value) {
         this->_str = value;
+        this->_int = parse_int(this->str());
+        this->_list = split(this->str(), ", ");
+
+        for (size_t i = 0; i < this->_list.size(); i++)
+            this->_list[i] = trim(this->_list[i]);
 
         return this->str();
     }
 
     std::vector<std::string> header::_set(const std::vector<std::string> value) {
         this->_list = value;
-        
-        this->_set(join(this->list(), ", "));
+        this->_str = join(this->list(), ", ");
+        this->_int = INT_MIN;
 
         return this->list();
     }
@@ -239,12 +236,7 @@ namespace fetch {
         return this->_headers;
     }
 
-    int header::int_value() {
-        if (!this->_parsed) {
-            this->_int = parse_int(this->str());
-            this->_parsed = true;
-        }
-
+    int header::int_value() const {
         return this->_int;
     }
 

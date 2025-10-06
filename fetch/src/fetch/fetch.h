@@ -68,7 +68,7 @@ namespace fetch {
 
         // Member Functions
 
-        int                      int_value();
+        int                      int_value() const;
 
         std::vector<std::string> list() const;
 
@@ -78,7 +78,6 @@ namespace fetch {
 
         int                      _int;
         std::vector<std::string> _list;
-        bool                     _parsed = false;
         std::string              _str;
 
         // Member Functions
@@ -166,17 +165,11 @@ public:
     struct error: public std::exception, public response_t {
         // Constructors
 
-        error(
-            const size_t      status,
-            const std::string status_text,
-            const std::string text = "",
-            header::map       headers = {},
-            trailer::map      trailers = {}
-        );
+        error(const size_t status, const std::string status_text, const std::string text = "", header::map headers = {}, trailer::map trailers = {});
 
         // Member Functions
 
-        const char*  what() const throw();
+        const char* what() const throw();
     private:
 
         // Non-Member Functions
