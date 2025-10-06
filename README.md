@@ -1,8 +1,8 @@
 # Fetch SDK for C++
 
-Thank you for checking out the <i>Fetch SDK for C++</i>!
+Thanks for checking out my <i>fetch</i> SDK for C++!
 
-It enables developers to natively fetch HTTP requests for low-level integration.
+It equips you with a powerful HTTP client for low-level integration.
 
 ## Test Server
 
