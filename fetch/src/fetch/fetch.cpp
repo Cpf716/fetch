@@ -92,7 +92,7 @@ namespace fetch {
             headers.erase(key);
             
             // Map host
-            ss << "host: " << host << "\r\n";
+            ss << "host: " << host;
 
             // Generate content-length, if required
             key = "content-length";
@@ -105,15 +105,17 @@ namespace fetch {
             }       
 
             // Map request headers
-            for (const auto& [key, value]: headers)
-                ss << key << ": " << value.str() << "\r\n";
+            for (const auto& [key, value]: headers) {
+                ss << "\r\n";
+                ss << key << ": " << value.str();
+            }
 
             headers["host"] = host;
             // End - Map request headers
 
             // Map body
             if (body.length()) {
-                ss << "\r\n";
+                ss << "\r\n\r\n";
                 ss << body;
             }
 
