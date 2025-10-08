@@ -114,10 +114,8 @@ namespace fetch {
             // Map body
             if (body.length()) {
                 ss << "\r\n";
-                ss << body << "\r\n";
+                ss << body;
             }
-
-            ss << "\r\n";
 
             this->_message = ss.str();
 
