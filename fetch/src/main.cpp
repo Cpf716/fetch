@@ -15,7 +15,7 @@ int main(int argc, const char * argv[]) {
         { "content-type", "application/json" }
     };
 
-    string      url = "http://localhost:8080/greeting";
+    string      url = "http://localhost:8081/greeting";
     // string      url = "http://localhost:8081/no-reply";
 
     string      method = "POST";
